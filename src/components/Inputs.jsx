@@ -24,6 +24,11 @@ function Inputs({setQuery,units, setUnits}) {
         const selectedUnit=e.currentTarget.name
         if(units!=selectedUnit) setUnits(selectedUnit);
     }
+    let onKeyDownHandler = (e) => {
+        if (e.keyCode === 13) {
+          handleSearchClick();
+        }
+      };
 
   return(
   <div className='flex flex-row justify-center
@@ -31,10 +36,10 @@ function Inputs({setQuery,units, setUnits}) {
     <div className='flex flex-row w-3/4 items-center justify-center space-x-4'>
         <input
          value={city}
-         onChange={(e)=>setCity(e.currentTarget.value)}
+         onChange={(e)=>setCity(e.currentTarget.value) } onKeyDown={onKeyDownHandler}
         type='text' placeholder='Search for City...' className='text-xl font-light p-2 w-full shadow-xl focus:outline-none capitalize placeholder:lowercase'></input>
         <UilSearch size={25} className='text-white cursor-pointer transition ease-out hover:scale-125 ' 
-        onClick={handleSearchClick}/>
+        onClick={handleSearchClick} />
         <UilLocationPoint size={25} className='text-white cursor-pointer transition ease-out hover:scale-125'
         onClick={handleLocationClick}/>
     </div>
