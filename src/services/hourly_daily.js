@@ -24,7 +24,7 @@ const formatForecastWeather = async (lat,lon) => {
 
     // }
 
-     const daily= list.slice(0,5).map((d) => {
+     const daily= list.slice(1,6).map((d) => {
       return {
           title: d.dt_txt,
           temp: d.main.temp,
