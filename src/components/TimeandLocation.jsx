@@ -1,18 +1,19 @@
 import React from 'react'
 import { formatToLocalTime } from '../services/weatherService';
+import { DateTime } from 'luxon';
 
 
-function TimeandLocation({weather : {dt,timezone,name,country}}) {
+function TimeandLocation({weather : {timezone,name,country}}) {
   var d = new Date()
   var localTime = d.getTime()
   var localOffset = d.getTimezoneOffset() * 60000
   var utc = localTime + localOffset
-  var cityOffset = utc + (1000 * timezone)
+  var cityOffset = utc + (1000 * timezone);
   var nd  = new Date(cityOffset)
   const cityDate= new Date(cityOffset).toDateString().split(' ')
   const cityTime = new Date(cityOffset).toTimeString().split(' ')
   const [hrs , mins ,secs]=cityTime[0].split(':');
-    console.log(localOffset,nd,cityTime,cityDate,hrs,mins);
+    // console.log(localOffset,nd,cityTime,cityDate,hrs,mins,timezone);
 
   return (
     <div>

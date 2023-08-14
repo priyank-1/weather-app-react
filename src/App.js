@@ -1,59 +1,76 @@
 import "./App.css";
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import UilReact from "@iconscout/react-unicons/icons/uil-react";
 import TopButtons from "./components/TopButtons";
 import Inputs from "./components/Inputs";
 import TimeandLocation from "./components/TimeandLocation";
 import TemperatureandDetails from "./components/TemperatureandDetails";
-
+import formatForecastWeather from "./services/hourly_daily";
 import getFormattedWeatherData from "./services/weatherService";
 import { formatToLocalTime, iconUrlFromCode } from "./services/weatherService";
 import { useEffect, useState } from "react";
+import Forecast from "./components/Forecast";
+
 
 function App() {
   const [query, setQuery] = useState({ q: "New Delhi" });
   const [units, setUnits] = useState("metric");
   const [weather, setWeather] = useState(null);
+  const [weather2,setWeather2]=useState(null);
+  var lait,long;
 
   useEffect(() => {
     const fetchWeather = async () => {
-      const message = query.q ? query.q :'current location.'
-      toast.info('Fetching weather for ' + message)
-      await getFormattedWeatherData({ ...query, units }).then((data) => {
-        toast.success(`Successfully fetched weather for ${data.name}, ${data.country}.`)
+      const message = query.q ? query.q : "current location.";
+      toast.info("Fetching weather for " + message);
+      await ( getFormattedWeatherData({ ...query, units }).then( async (data) => {
+        toast.success(
+          `Successfully fetched weather for ${data.name}, ${data.country}.`
+        );
         setWeather(data);
-        console.log(data);
-      });
+        const data2= await formatForecastWeather(data.lat,data.lon);
+        // console.log(data2);
+        setWeather2(data2);
+        
+      }))
     };
 
     fetchWeather();
-  }, [query, units]); 
+  }, [query, units]);
 
-  const formatBackground = ()=>{
-    if(!weather) return 'from-cyan-700 to-blue-700 '
-    const threshold=units==='metric'?20:60
-    if(weather.temp<=threshold) return 'from-cyan-700 to-blue-700 '
+  
+  // console.log(weather2.daily);
+ 
+   const {daily}= {...weather2};
+  //  console.log(daily);
+ 
+  const formatBackground = () => {
+    if (!weather) return "from-cyan-600 to-blue-600 ";
+    const threshold = units === "metric" ? 27 : 60;
+    if (weather.temp <= threshold) return "from-cyan-600 to-blue-600 ";
 
-    return "from-yellow-700 to-orange-700"
-  }
+    return "from-orange-500 to-yellow-500";
+  };
 
   return (
-    <div className={`mx-auto max-w-screen-md mt-36 py-5 px-32 bg-gradient-to-br from-cyan-700 to-blue-700 h-fit shadow-xl shadow-gray-400 ${formatBackground()}`}>
-      <TopButtons setQuery={setQuery}/>
-      <Inputs setQuery={setQuery} units={units} setUnits={setUnits}/>
+    <div
+      className={`mx-auto max-w-screen-md mt-6 py-5 px-32 bg-gradient-to-br from-cyan-700 to-blue-700 h-fit shadow-xl shadow-gray-400 ${formatBackground()}`}
+    >
+      <TopButtons setQuery={setQuery} />
+      <Inputs setQuery={setQuery} units={units} setUnits={setUnits} />
 
-      {weather && (
+      {weather &&  (
         <div>
-          <TimeandLocation weather = {weather}/>
-          <TemperatureandDetails weather = {weather} />
-          {/* <Forecast title ="hourly forecast"/>
-  <Forecast title ="daily forecast"/> */}
+          <TimeandLocation weather={weather} />
+          <TemperatureandDetails weather={weather} />
+          <Forecast title= "Hourly Forecast" items={daily}/>
+          
+
         </div>
       )}
-      <ToastContainer autoClose={5000} theme="colored" newestOnTop={true}/>
+      <ToastContainer autoClose={5000} theme="colored" newestOnTop={true} />
     </div>
-    
   );
 }
 
