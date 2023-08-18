@@ -24,7 +24,7 @@ const formatForecastWeather = async (lat,lon) => {
 
     // }
 
-     const daily= list.slice(1,6).map((d) => {
+     const hourly= list.slice(1,6).map((d) => {
       return {
           title: d.dt_txt,
           temp: d.main.temp,
@@ -33,18 +33,21 @@ const formatForecastWeather = async (lat,lon) => {
         
       });
 
-      // const hourly= list.filter(isdivided).map((d) =>{
-      //   return {
-      //       title: d.dt_txt,
-      //       temp: d.main.temp,
-      //       icon: d.weather[0].icon,
-      //     }
+      const daily= list.filter((ele)=>{
+        if((list.indexOf(ele))%8===0)
+        return ele;
+      }).map((d) =>{
+        return {
+            title: d.dt_txt,
+            temp: d.main.temp,
+            icon: d.weather[0].icon,
+          }
           
-      //   });
+        });
     
       // console.log(hourly)
     
-      return {daily};
+      return {daily,hourly};
 }
 
     export default formatForecastWeather;

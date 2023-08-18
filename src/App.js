@@ -13,6 +13,7 @@ import { useEffect, useState } from "react";
 import Forecast from "./components/Forecast";
 
 
+
 function App() {
   const [query, setQuery] = useState({ q: "New Delhi" });
   const [units, setUnits] = useState("metric");
@@ -42,20 +43,25 @@ function App() {
   
   // console.log(weather2.daily);
  
-   const {daily}= {...weather2};
-  //  console.log(daily);
+   const {daily,hourly}= {...weather2};
+   console.log(hourly);
  
-  const formatBackground = () => {
-    if (!weather) return "from-cyan-600 to-blue-600 ";
-    const threshold = units === "metric" ? 27 : 60;
-    if (weather.temp <= threshold) return "from-cyan-600 to-blue-600 ";
+  // const formatBackground = () => {
+  //   if (!weather) return "from-cyan-600 to-blue-600 ";
+  //   const threshold = units === "metric" ? 27 : 60;
+  //   if (weather.temp <= threshold) return "from-cyan-600 to-blue-600 ";
 
-    return "from-orange-500 to-yellow-500";
-  };
+  //   return "from-orange-500 to-yellow-500";
+  // };
 
   return (
+    <>
+    <div className="bg-cover bg-center bg-no-repeat grid p-16" style={{backgroundImage : `url(${require('./Images/bgjungle.jpg')})`
+     
+    }}>
     <div
-      className={`mx-auto max-w-screen-md mt-6 py-5 px-32 bg-gradient-to-br from-cyan-700 to-blue-700 h-fit shadow-xl shadow-gray-400 ${formatBackground()}`}
+      className={`h-100 mx-auto max-w-screen-md mt-auto mb-auto py-6 px-32 bg-white bg-opacity-5 backdrop-blur-lg rounded drop-shadow-lg` }
+      id="form"
     >
       <TopButtons setQuery={setQuery} />
       <Inputs setQuery={setQuery} units={units} setUnits={setUnits} />
@@ -64,13 +70,17 @@ function App() {
         <div>
           <TimeandLocation weather={weather} />
           <TemperatureandDetails weather={weather} />
-          <Forecast title= "Hourly Forecast" items={daily}/>
+          <Forecast title= "Hourly Forecast" items={hourly}/>
+          <Forecast title= "Daily Forecast" items={daily}/>
           
 
         </div>
       )}
-      <ToastContainer autoClose={5000} theme="colored" newestOnTop={true} />
+      
     </div>
+    <ToastContainer autoClose={5000} theme="colored" newestOnTop={true} />
+    </div>
+    </>
   );
 }
 
