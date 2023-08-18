@@ -60,7 +60,7 @@ function App() {
      
     }}>
     <div
-      className={" container h-100 mx-auto max-w-screen-md mt-auto mb-auto py-6 px-32 bg-white bg-opacity-5 backdrop-blur-lg rounded drop-shadow-lg" }
+      className={" h-100 mx-auto max-w-screen-md mt-auto mb-auto py-6 px-32 bg-white bg-opacity-5 backdrop-blur-lg rounded drop-shadow-lg" }
       id="form"
     >
       <TopButtons setQuery={setQuery} />
