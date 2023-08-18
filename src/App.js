@@ -56,11 +56,11 @@ function App() {
 
   return (
     <>
-    <div className="bg-cover bg-center bg-no-repeat grid p-16" style={{backgroundImage : `url(${require('./Images/bgjungle.jpg')})`
+    <div className=" bg-cover bg-center bg-no-repeat grid p-16" style={{backgroundImage : `url(${require('./Images/bgjungle.jpg')})`
      
     }}>
     <div
-      className={`h-100 mx-auto max-w-screen-md mt-auto mb-auto py-6 px-32 bg-white bg-opacity-5 backdrop-blur-lg rounded drop-shadow-lg` }
+      className={" container h-100 mx-auto max-w-screen-md mt-auto mb-auto py-6 px-32 bg-white bg-opacity-5 backdrop-blur-lg rounded drop-shadow-lg" }
       id="form"
     >
       <TopButtons setQuery={setQuery} />
